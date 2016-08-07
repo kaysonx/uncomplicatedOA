@@ -1,0 +1,115 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>DoCheck</title>
+    <link href="~/Content/tableStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+
+
+    <script type="text/javascript">
+        $(function () {
+
+            $("#btnPass").click(function () {
+                var id = $("#hidStepId").attr("stepId");
+                var userId = $("#toUsers").val();
+                $.post("/WFInstance/DoCheck", { stepid: id, isPass: true, Comment: $("#Comment").val(), toUsers: userId }, function (data) {
+                });
+            });
+
+            $("#btnUnPass").click(function () {
+                var id = $("#hidStepId").attr("stepId");
+                var userId = $("#toUsers").val();
+                $.post("/WFInstance/DoCheck", { stepid: id, isPass: false, Comment: $("#Comment").val(), toUsers: userId }, function (data) {
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    @{
+        Seven7c.OA.Model.WF_Instance instance = (Seven7c.OA.Model.WF_Instance)ViewBag.Instance;
+        var steps = (List<Seven7c.OA.Model.WF_Step>)ViewBag.Steps;
+        var stepId = steps.OrderBy(s => s.Id).LastOrDefault().Id;
+    }
+    <div>
+        <input type="hidden" stepId="@stepId" id="hidStepId"/>
+        <table>
+           
+            <tr>
+                <th colspan="2">流程详细</th>
+            </tr>
+
+            <tr>
+                <td>流程名</td>
+                <td>@instance.InstName</td>
+            </tr>
+
+            <tr>
+                <td>模板类型</td>
+                <td>@instance.WF_Temp.TempName</td>
+            </tr>
+
+            <tr>
+                <td>申请人</td>
+                <td>@instance.SubBy</td>
+            </tr>
+
+            <tr>
+                <td>申请时间</td>
+                <td>@instance.SubTime</td>
+            </tr>
+
+            <tr>
+                <td>申请内容</td>
+                <td>@Html.Raw(instance.InstanceForm)</td>
+            </tr>
+
+            <tr>
+                <td>审批步骤</td>
+                <td>
+                    @foreach (var item in steps)
+                    {
+                        <p>
+                            审批节点：@item.StepName<br />
+                            审批人：@item.ProcessBy<br />
+                            审批时间：@item.CheckTime<br />
+                            审批结果：@Html.Raw(string.IsNullOrEmpty(item.Result) ? "正在审批中..." : item.Result)<br />
+                            审批意见:@item.Comment
+                        </p>
+                    }
+
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>审批</td>
+                <td>
+                    <table>
+                        <tr>
+                            <td>审批意见</td>
+                            <td><input type="text" id="Comment"/></td>
+                        </tr>
+                        <tr>
+                            <td>流转到</td>
+                            <td>@Html.DropDownList("toUsers")</td>
+                        </tr>
+                        <tr>
+                            <td><input type="button" value="通过" id="btnPass"/></td>
+                            <td><input type="button" value="驳回" id="btnUnPass" /></td>
+                        </tr>
+                    </table>
+                    <a href="/WFInstance/ShowMyUnCheck">返回我的待批流程</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

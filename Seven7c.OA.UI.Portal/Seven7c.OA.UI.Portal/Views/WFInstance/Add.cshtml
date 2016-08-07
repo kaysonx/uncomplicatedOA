@@ -1,0 +1,97 @@
+﻿@model Seven7c.OA.Model.WF_Instance
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <link href="~/Content/KinderEditor/themes/default/default.css" rel="stylesheet" />
+    <link href="~/Content/KinderEditor/plugins/code/prettify.css" rel="stylesheet" />
+    <link href="~/Content/tableStyle.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+
+    <script src="~/Content/KinderEditor/kindeditor-min.js"></script>
+    <script src="~/Content/KinderEditor/lang/zh_CN.js"></script>
+    <script src="~/Content/KinderEditor/plugins/code/prettify.js"></script>
+
+
+    <script>
+      
+        var InstanceForm;
+        KindEditor.ready(function (K) {
+            InstanceForm = K.create('#InstanceForm', {
+                cssPath: '../plugins/code/prettify.css',
+                uploadJson: '../asp.net/upload_json.ashx',
+                fileManagerJson: '../asp.net/file_manager_json.ashx',
+                allowFileManager: true,
+                afterCreate: function () {
+                    var self = this;
+                    K.ctrl(document, 13, function () {
+                        self.sync();
+                        K('form[name=example]')[0].submit();
+                    });
+                    K.ctrl(self.edit.doc, 13, function () {
+                        self.sync();
+                        K('form[name=example]')[0].submit();
+                    });
+                }
+            });
+            prettyPrint();
+        });
+    </script>
+</head>
+<body>
+   @{
+       Seven7c.OA.Model.WF_Temp temp = ViewBag.Temp;
+   }
+
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        
+         <table>
+             <tr>
+                 <th colspan="2">
+                     发起流程
+                 </th>
+             </tr>
+            <tr>
+                <td>发起流程：</td><td>@temp.TempName</td>
+            </tr>
+            <tr>
+                <td>流程描述：</td><td>@Html.Raw(temp.Description)</td>
+            </tr>
+            <tr>
+                <td>流程名：</td><td>@Html.EditorFor(model => model.InstName)</td>
+            </tr>
+            <tr>
+                <td>流转到：</td><td>
+                                 @Html.DropDownList("toUsers")
+                             </td>
+            </tr>
+            <tr>
+                <td>备注：</td><td>@Html.EditorFor(model => model.Remark)</td>
+            </tr>
+               <tr>
+                <td>流程表单：</td><td>   <textarea id="InstanceForm" name="InstanceForm" cols="100" rows="8" style="width:600px;height:250px;visibility:hidden;" runat="server">
+
+               @temp.TempForm    
+
+</textarea></td>
+            </tr>
+        </table>
+         
+            <p>
+                <input type="submit" value="发起流程" />
+            </p>
+    }
+</body>
+</html>

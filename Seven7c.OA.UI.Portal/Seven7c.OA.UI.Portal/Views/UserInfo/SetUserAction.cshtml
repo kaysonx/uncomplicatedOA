@@ -1,0 +1,116 @@
+﻿@model Seven7c.OA.Model.UserInfo
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+    <link href="~/Content/tableStyle.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            //允许
+            $(".passRb").click(function () {
+                var userId = $("#hiddenId").val();
+                var actionId = $(this).attr("aId");
+
+                $.post("/UserInfo/SetUserAction/" + userId, {actionId:actionId,isPass:"true"}, function (data) { });
+            });
+            //拒绝
+            $(".nopassRb").click(function () {
+                var userId = $("#hiddenId").val();
+                var actionId = $(this).attr("aId");
+
+                $.post("/UserInfo/SetUserAction/" + userId, { actionId: actionId, isPass: "false" }, function (data) { });
+            });
+            //删除
+            $(".btnDelete").click(function () {
+                var userId = $("#hiddenId").val();
+                var actionId = $(this).attr("aId");
+
+                var btn = $(this);
+                $.post("/UserInfo/SetUserAction/" + userId, { actionId: actionId, isPass: "delete" }, function (data) {
+                    btn.siblings("input[type='radio']").attr("checked", false);
+                });
+            });
+
+        });
+    </script>
+</head>
+
+<body>
+    <div>
+        <h5>给用户：@Model.UName 设置特殊权限</h5>
+        <input type="hidden" value="@Model.Id" id="hiddenId"/>
+
+        <table>
+            <tr>
+                <th>权限Id</th><th>权限名</th><th>权限类型</th>
+                <th>权限Url</th><th>HttpMethod</th><th>操作</th>
+            </tr>
+            @{
+                List<Seven7c.OA.Model.ActionInfo> allActions = ViewBag.AllActions;
+                List<Seven7c.OA.Model.R_UserInfo_ActionInfo> allExist = ViewBag.AllExistActions;
+            }
+            @foreach (var item in allActions)
+            {
+                string name = "ckb_" + item.Id;
+                var currentRAU = allExist.Where(a => a.ActionInfoId == item.Id).FirstOrDefault();
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.ActionName</td>
+                    <td>@if (item.ActionInfoType == 0)
+                        {
+                            <span>普通权限</span>
+                        }
+                        else
+                        {
+                            <span>菜单权限</span>
+                        }
+                    </td>
+                    <td>@item.Url</td>
+                    <td>@item.HttpMethod</td>
+                    <td>
+                        @if (currentRAU != null)
+                        {
+                            string strRadio;
+                            if (currentRAU.IsPass)
+                            {
+                                strRadio = "<input checked='checked' type='radio' aId='" + item.Id + "' class='passRb'"
+                                           + " name='" + name + "' value='true' />允许 &nbsp;<input aId='" + item.Id + "' type='radio' class='nopassRb' name='" + name + "' value='false' />拒绝"
+                                    ;
+
+                            }
+                            else
+                            {
+                                strRadio = "<input  type='radio' aId='" + item.Id + "' class='passRb'"
+                                           + " name='" + name + "' value='true' />允许 &nbsp;<input aId='" + item.Id + "' type='radio' checked='checked' class='nopassRb' name='" + name + "' value='false' />拒绝"
+                                    ;
+                            }
+                               @Html.Raw(strRadio)
+                        }else
+                    	{
+                            <input aId="@item.Id"  class="passRb" type="radio" name="@name" value="true" />
+                            <span>允许&nbsp;</span> 
+                            <input aId="@item.Id" type='radio' class='nopassRb' name='@name' value='false' />
+                             <span>拒绝</span>
+                            
+	                    }
+                        
+                        &nbsp;<input aId ="@item.Id" type="button" value="删除" class="btnDelete"/>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</body>
+</html>

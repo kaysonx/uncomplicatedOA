@@ -1,0 +1,258 @@
+﻿@model Seven7c.OA.Model.Messsage
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/tableStyle.css" rel="stylesheet" />
+    <title>SendMessage</title>
+    <link href="~/Content/KinderEditor/themes/default/default.css" rel="stylesheet" />
+    <link href="~/Content/KinderEditor/plugins/code/prettify.css" rel="stylesheet" />
+
+
+
+
+    <script src="~/Content/SWFUpload/swfupload.js"></script>
+    <script src="~/Content/SWFUpload/handlers.js"></script>
+
+
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+    <script src="~/Content/KinderEditor/kindeditor-min.js"></script>
+    <script src="~/Content/KinderEditor/lang/zh_CN.js"></script>
+    <script src="~/Content/KinderEditor/plugins/code/prettify.js"></script>
+
+
+
+    <script type="text/javascript">
+
+//----------------------------------------SWFUpload------------------------------------
+        var swfu;
+        window.onload = function () {
+            swfu = new SWFUpload({
+                // Backend Settings
+                upload_url: "/Message/UpLoadFile",
+                post_params: {
+                    "ASPSESSID": "@Session.SessionID"
+                },
+
+                // File Upload Settings
+                file_size_limit: "20 MB",
+                file_types: "*.*",
+                file_types_description: "AllFiles",
+                file_upload_limit: 0,    // Zero means unlimited
+
+                // Event Handler Settings - these functions as defined in Handlers.js
+                //  The handlers are not part of SWFUpload but are part of my website and control how
+                //  my website reacts to the SWFUpload events.
+                swfupload_preload_handler: preLoad,
+                swfupload_load_failed_handler: loadFailed,
+                file_queue_error_handler: fileQueueError,
+                file_dialog_complete_handler: fileDialogComplete,
+                upload_progress_handler: uploadProgress,
+                upload_error_handler: uploadError,
+                upload_success_handler: getUpImage,
+                //  upload_complete_handler: uploadComplete,
+
+                // Button settings
+                button_image_url: "/Content/SWFUpload/images/XPButtonNoText_160x22.png",
+                button_placeholder_id: "spanButtonPlaceholder",
+                button_width: 160,
+                button_height: 22,
+                button_text: '<span class="button">请选择上传文件<span class="buttonSmall">(20 MB Max)</span></span>',
+                button_text_style: '.button { font-family: Helvetica, Arial, sans-serif; font-size: 14pt; } .buttonSmall { font-size: 10pt; }',
+                button_text_top_padding: 1,
+                button_text_left_padding: 5,
+
+                // Flash Settings
+                flash_url: "/Content/SWFUpload/swfupload.swf", // Relative to this file
+                flash9_url: "/Content/SWFUpload/swfupload_FP9.swf", // Relative to this file
+
+                custom_settings: {
+                    upload_target: "divFileProgressContainer"
+                },
+
+                // Debug Settings
+                debug: false
+            });
+        }
+
+        function getUpImage(file, serverData) {
+            $("#FileUrl").val(serverData);
+        }
+        //----------------------------------------SWFUpload-End-----------------------------------
+        //-------------------------------KinderEditor---------------------------------------------
+        var editorContent;
+        KindEditor.ready(function (K) {
+            editorContent = K.create('#Content', {
+                cssPath: '../plugins/code/prettify.css',
+                uploadJson: '../asp.net/upload_json.ashx',
+                fileManagerJson: '../asp.net/file_manager_json.ashx',
+                allowFileManager: true,
+                afterCreate: function () {
+                    var self = this;
+                    K.ctrl(document, 13, function () {
+                        self.sync();
+                        K('form[name=example]')[0].submit();
+                    });
+                    K.ctrl(self.edit.doc, 13, function () {
+                        self.sync();
+                        K('form[name=example]')[0].submit();
+                    });
+                }
+            });
+            prettyPrint();
+        });
+
+        $("input[type='submit']").click(function () {
+            //把富文本编辑器的内容同步到文本域
+            editorContent.sync();
+            
+        });
+
+        function submit() {
+            //把富文本编辑器的内容同步到文本域
+            editorContent.sync();
+            
+            $("form").submit();
+        }
+
+
+        //-------------------------------KinderEditor-End-------------------------------
+
+
+        $(function () {
+            //页面加载完成后给combobox绑定事件。
+            $("#Roles").change(function () {
+                $.post("/Message/LoadUsers/", { id: $(this).val() }, function (data) {
+                    if (data == "null") {
+                        return;
+                    }
+                    var optionsStr = "";
+                    for (var i = 0; i < data.length; i++) {
+                        if (i == 0) {
+                            optionsStr += "<option selected='selected' value='" + data[i].Id + "'>" + data[i].UName + "</option>";
+                        } else {
+                            //<option value="1">后台管理员</option>
+                            optionsStr += "<option value='" + data[i].Id + "'>" + data[i].UName + "</option>";
+                        }
+
+                    }
+                    $("#sltUsers").html("");
+                    $("#sltUsers").html(optionsStr);
+                    addEvent();
+                });
+            });
+            $("#sltUsers").change(function () {
+                addEvent();
+            });
+            $("#Roles").change();
+            
+ 
+        });
+
+
+        //添加发送给
+        function addEvent() {
+            var userName = $("#sltUsers").find("option:selected").text();
+            var value = $("#sltUsers").val();
+            //alert(userName);
+            $("#SendTo").val(userName);
+            $("#hidSendTo").val(value);
+        }
+        function AfterSend(data) {
+            if(data == "ok")
+            {
+                window.parent.window.close();
+            } 
+        }
+        
+    </script>
+</head>
+<body>
+    <div>
+        @using(Ajax.BeginForm("SendMessage", new AjaxOptions() { OnSuccess="AfterSend"}))
+        {
+               <table>
+                   <tr>
+                       <th colspan="2">
+                           发送消息
+                       </th>
+                   </tr>
+
+                   <tr>
+                       <td>接收人:</td>
+                       <td>
+                           @Html.DropDownList("Roles")
+                           <select name="Users" id="sltUsers">
+                               
+                           </select>
+                       </td>
+                       
+                   </tr>
+
+                   <tr>
+                       <td>
+                           接收人:
+                       </td>
+                       <td>
+                           <input type="text" id="SendTo"  readonly="readonly"/>
+                           <input type="hidden" name="SendTo" id="hidSendTo"/>
+                       </td>
+                   </tr>
+
+                   <tr>
+                       <td>标题:</td>
+                       <td><input type="text" name="Title" placeholder="选填，可为空"/></td>
+                   </tr>
+
+                   <tr>
+                       <td>内容:</td>
+                         <td>  <textarea id="Content" name="Content" cols="40" rows="10" placeholder="必填*" style="width:600px;height:250px;visibility:hidden;"></textarea>
+                       </td>
+                   </tr>
+
+                 
+
+                   <tr>
+                       <td>
+                           附件:
+                       </td>
+                       @*<td>
+                           <input type="file" name="upFile"/>
+                           <input type="hidden" name="FileUrl" />
+                       </td>
+                       <td><input type="button" id="btnUpFile" value="上传文件"/></td>*@
+                       <td >
+                           <div id="swfu_container" style="margin: 0px 10px;">
+                               <div>
+                                   <span id="spanButtonPlaceholder"></span>
+                               </div>
+                               
+                               <div id="divFileProgressContainer" style="height: 75px;"></div>
+                               
+                               <div id="thumbnails"></div>
+
+                               <input type="hidden" name="FileUrl" id="FileUrl" />
+                           </div>
+                       </td>
+                   </tr>
+                   <tr>
+                       <td colspan="2" align="center">
+                           <input type="submit" value="发送" />&nbsp;
+                           <input type="reset"  value="重写" />
+                       </td>
+                   </tr>
+               </table>
+        }
+     
+    </div>
+</body>
+</html>

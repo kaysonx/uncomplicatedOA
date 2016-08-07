@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+
+
+  <object type="Seven7c.OA.UI.Portal.Controllers.LoginController,Seven7c.OA.UI.Portal" singleton="false" >
+    <property name="UserInfoService" ref="UserInfoService" />
+  </object>
+
+
+
+  <object type="Seven7c.OA.UI.Portal.Controllers.UserInfoController,Seven7c.OA.UI.Portal" singleton="false" >
+    <property name="UserInfoService" ref="UserInfoService" />
+    <property name="RoleInfoService" ref="RoleInfoService" />
+    <property name="ActionInfoService" ref="ActionInfoService" />
+    <property name="R_UserInfo_ActionInfoService" ref="R_UserInfo_ActionInfoService" />
+  </object>
+
+  <object type="Seven7c.OA.UI.Portal.Controllers.RoleInfoController,Seven7c.OA.UI.Portal" singleton="false" >
+    <property name="RoleInfoService" ref="RoleInfoService" />
+  </object>
+
+  <object type="Seven7c.OA.UI.Portal.Controllers.ActionInfoController,Seven7c.OA.UI.Portal" singleton="false" >
+    <property name="ActionInfoService" ref="ActionInfoService" />
+    <property name="RoleInfoService" ref="RoleInfoService" />
+  </object>
+
+  <object type="Seven7c.OA.UI.Portal.Controllers.HomeController,Seven7c.OA.UI.Portal" singleton="false" >
+    <property name="UserInfoService" ref="UserInfoService" />
+  </object>
+
+  <object type="Seven7c.OA.UI.Portal.Controllers.WFTempController,Seven7c.OA.UI.Portal" singleton="false" >
+    <property name="WF_TempService" ref="WF_TempService" />
+  </object>
+
+  <object type="Seven7c.OA.UI.Portal.Controllers.WFInstanceController,Seven7c.OA.UI.Portal" singleton="false" >
+    <property name="WF_TempService" ref="WF_TempService" />
+    <property name="WF_InstanceService" ref="WF_InstanceService" />
+    <property name="WF_StepService" ref="WF_StepService" />
+    <property name="UserInfoService" ref="UserInfoService" />
+  </object>
+
+  <object type="Seven7c.OA.UI.Portal.Controllers.MessageController,Seven7c.OA.UI.Portal" singleton="false" >
+    <property name="UserInfoService" ref="UserInfoService" />
+    <property name="RoleInfoService" ref="RoleInfoService" />
+    <property name="MesssageService" ref="MesssageService" />   
+  </object>
+</objects>
+

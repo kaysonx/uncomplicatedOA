@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+
+
+  <!--配置Service-->
+  <object name="UserInfoService" type="Seven7c.OA.BLL.UserInfoService,Seven7c.OA.BLL" singleton="false" >
+  </object>
+
+  <object name="OrderInfoService" type="Seven7c.OA.BLL.OrderInfoService,Seven7c.OA.BLL" singleton="false" >
+  </object>
+
+  <object name="RoleInfoService" type="Seven7c.OA.BLL.RoleInfoService,Seven7c.OA.BLL" singleton="false" >
+  </object>
+
+  <object name="ActionInfoService" type="Seven7c.OA.BLL.ActionInfoService,Seven7c.OA.BLL" singleton="false" >
+  </object>
+
+  <object name="R_UserInfo_ActionInfoService" type="Seven7c.OA.BLL.R_UserInfo_ActionInfoService,Seven7c.OA.BLL" singleton="false" >
+  </object>
+
+  <object name="WF_InstanceService" type="Seven7c.OA.BLL.WF_InstanceService,Seven7c.OA.BLL" singleton="false" >
+  </object>
+
+  <object name="WF_StepService" type="Seven7c.OA.BLL.WF_StepService,Seven7c.OA.BLL" singleton="false" >
+  </object>
+
+  <object name="WF_TempService" type="Seven7c.OA.BLL.WF_TempService,Seven7c.OA.BLL" singleton="false" >
+  </object>
+
+  <object name="MesssageService" type="Seven7c.OA.BLL.MesssageService,Seven7c.OA.BLL" singleton="false" >
+  </object>
+</objects>
+

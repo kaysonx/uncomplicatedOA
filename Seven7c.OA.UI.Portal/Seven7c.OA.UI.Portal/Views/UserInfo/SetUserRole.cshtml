@@ -1,0 +1,69 @@
+﻿@model Seven7c.OA.Model.UserInfo
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+    <link href="~/Content/tableStyle.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+    <script type="text/javascript">
+        function afterSetRole(data) {
+            //关闭对话框，刷新表格
+            if (data == "ok") {
+                window.parent.window.afterSetUserRole();
+            }
+        }
+
+        function submitFrm() {
+            $("form").submit();
+        }
+    </script>
+</head>
+
+<body>
+    <div>
+        <h5>给用户：@Model.UName 设置角色</h5>
+        <div>
+            @{
+                List<Seven7c.OA.Model.RoleInfo> allRoles = (List<Seven7c.OA.Model.RoleInfo>)ViewBag.AllRoles;
+                List<int> existRoleIds = (List<int>)ViewBag.ExistRolesId;
+            }
+
+            @using (Ajax.BeginForm("SetUserRole",new AjaxOptions(){OnSuccess="afterSetRole"}))
+            {
+                @Html.Raw("<table><tr>")
+                <th colspan="3">设置角色</th>
+                for (int i = 0; i < allRoles.Count; i++)
+                {
+                    string strId = "ckb_" + allRoles[i].Id;
+                    if (i % 3 == 0)
+                    {
+                        @Html.Raw("</tr><tr>")
+                    }
+                    <td>
+                        @if(existRoleIds.Contains(allRoles[i].Id)){
+                            <input checked="checked" type="checkbox" value="@allRoles[i].Id" name="@strId"/>
+                        }else
+                        {
+                          <input type="checkbox" value="@allRoles[i].Id" name="@strId" />
+                        }
+                        <label for="@strId">@allRoles[i].RoleName</label>
+                        </td>
+                
+                }
+                @Html.Raw("</tr></table>")
+            }
+        </div>
+    </div>
+</body>
+</html>

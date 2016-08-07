@@ -1,0 +1,150 @@
+﻿@model Seven7c.OA.Model.ActionInfo
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+    <link href="~/Content/css-table.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/MyAjaxForm.js"></script>
+    <script src="~/Content/style-table.js"></script>
+
+    <script type="text/javascript">
+        function afterEdit(data) {
+            //关闭对话框，刷新表格
+            if (data == "ok") {
+                window.parent.window.afterEdit();
+            }
+        }
+
+        function submitFrm() {
+            $("form").submit();
+        }
+
+        $(function () {
+            $("#btnUpLoad").click(function () {
+                $("#editDiv form").ajaxSubmit({
+                    url: "/ActionInfo/UpLoadIcon",
+                    type: "Post",
+                    success: function (data) {
+                        //返回后台保存图片的地址
+                        if (data == "error") {
+                            $.messager.alert("提示", "图标上传失败!");
+                        } else {
+                            $("#imgDiv img").attr("src",data);
+                            $("#IconUrl").val(data);
+                        }
+                    }
+                });
+            });
+
+            
+        });
+    </script>
+</head>
+<body>
+    <div id="editDiv">
+        @using (Ajax.BeginForm("Edit", new AjaxOptions() { OnSuccess = "afterEdit" }))
+        {
+            @Html.ValidationSummary(true)
+            string imgUrl = Model.IconUrl;
+
+            @Html.HiddenFor(model => model.Id)
+
+            @Html.HiddenFor(model => model.SubTime)
+            @Html.HiddenFor(model => model.DelFlag)
+
+
+            <table>
+                <tr>
+                    <td>权限名:</td>
+                    <td>
+                        @Html.EditorFor(model => model.ActionName)
+                        @Html.ValidationMessageFor(model => model.ActionName)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>权限类型:</td>
+                    <td>
+                        <select name="ActionInfoType">
+                            @if (Model.ActionInfoType == 0)
+                            {
+                                <option value="0" selected="selected">普通权限</option>
+                                <option value="1">菜单权限</option>
+                            }
+                            else
+                            {
+                                <option value="0">普通权限</option>
+                                <option selected="selected" value="1">菜单权限</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>权限地址:</td>
+                    <td>
+                        @Html.EditorFor(model => model.Url)
+                        @Html.ValidationMessageFor(model => model.Url)
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Http请求类型:</td>
+                    <td>
+                        <select name="HttpMethod">
+                            @if (Model.HttpMethod.ToLower() == "get")
+                            {
+                                <option selected="selected" value="Get">Get</option>
+                                <option value="Post">Post</option>
+                            }
+                            else
+                            {
+                                <option value="Get">Get</option>
+                                <option selected="selected" value="Post">Post</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>菜单图标:</td>
+                    <td>
+                        <input type="file" name="iconFile" />
+                        <br />
+                        <input type="button" id="btnUpLoad" value="上传" />
+                        <input type="hidden" name="IconUrl" id="IconUrl" value="@imgUrl" />
+                        <div id="imgDiv">
+                            <img width='140' height='140' src='@imgUrl' />
+                        </div>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>备注:</td>
+                    <td>
+                        @Html.EditorFor(model => model.Remark)
+                        @Html.ValidationMessageFor(model => model.Remark)
+
+
+                    </td>
+                </tr>
+
+            </table>
+
+        }
+    </div>
+</body>
+</html>
+

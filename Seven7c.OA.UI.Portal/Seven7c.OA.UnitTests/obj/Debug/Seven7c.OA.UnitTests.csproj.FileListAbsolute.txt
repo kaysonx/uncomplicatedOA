@@ -1,0 +1,10 @@
+G:\BaiduYunDownload\OA\Seven7c.OA.UI.Portal\Seven7c.OA.UnitTests\bin\Debug\Seven7c.OA.UnitTests.dll
+G:\BaiduYunDownload\OA\Seven7c.OA.UI.Portal\Seven7c.OA.UnitTests\bin\Debug\Seven7c.OA.UnitTests.pdb
+G:\BaiduYunDownload\OA\Seven7c.OA.UI.Portal\Seven7c.OA.UnitTests\obj\Debug\Seven7c.OA.UnitTests.csprojResolveAssemblyReference.cache
+G:\BaiduYunDownload\OA\Seven7c.OA.UI.Portal\Seven7c.OA.UnitTests\obj\Debug\Seven7c.OA.UnitTests.dll
+G:\BaiduYunDownload\OA\Seven7c.OA.UI.Portal\Seven7c.OA.UnitTests\obj\Debug\Seven7c.OA.UnitTests.pdb
+F:\GOODBoy\MyOA_V1.0\Seven7c.OA.UI.Portal\Seven7c.OA.UnitTests\bin\Debug\Seven7c.OA.UnitTests.dll
+F:\GOODBoy\MyOA_V1.0\Seven7c.OA.UI.Portal\Seven7c.OA.UnitTests\bin\Debug\Seven7c.OA.UnitTests.pdb
+F:\GOODBoy\MyOA_V1.0\Seven7c.OA.UI.Portal\Seven7c.OA.UnitTests\obj\Debug\Seven7c.OA.UnitTests.csprojResolveAssemblyReference.cache
+F:\GOODBoy\MyOA_V1.0\Seven7c.OA.UI.Portal\Seven7c.OA.UnitTests\obj\Debug\Seven7c.OA.UnitTests.dll
+F:\GOODBoy\MyOA_V1.0\Seven7c.OA.UI.Portal\Seven7c.OA.UnitTests\obj\Debug\Seven7c.OA.UnitTests.pdb

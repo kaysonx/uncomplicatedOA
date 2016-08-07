@@ -1,0 +1,10 @@
+G:\BaiduYunDownload\OA\Seven7c.OA.UI.Portal\Seven7c.OA.ADONETDAL\bin\Debug\Seven7c.OA.ADONETDAL.dll
+G:\BaiduYunDownload\OA\Seven7c.OA.UI.Portal\Seven7c.OA.ADONETDAL\bin\Debug\Seven7c.OA.ADONETDAL.pdb
+G:\BaiduYunDownload\OA\Seven7c.OA.UI.Portal\Seven7c.OA.ADONETDAL\obj\Debug\Seven7c.OA.ADONETDAL.dll
+G:\BaiduYunDownload\OA\Seven7c.OA.UI.Portal\Seven7c.OA.ADONETDAL\obj\Debug\Seven7c.OA.ADONETDAL.pdb
+G:\BaiduYunDownload\OA\Seven7c.OA.UI.Portal\Seven7c.OA.ADONETDAL\obj\Debug\Seven7c.OA.ADONETDAL.csprojResolveAssemblyReference.cache
+F:\GOODBoy\MyOA_V1.0\Seven7c.OA.UI.Portal\Seven7c.OA.ADONETDAL\bin\Debug\Seven7c.OA.ADONETDAL.dll
+F:\GOODBoy\MyOA_V1.0\Seven7c.OA.UI.Portal\Seven7c.OA.ADONETDAL\bin\Debug\Seven7c.OA.ADONETDAL.pdb
+F:\GOODBoy\MyOA_V1.0\Seven7c.OA.UI.Portal\Seven7c.OA.ADONETDAL\obj\Debug\Seven7c.OA.ADONETDAL.dll
+F:\GOODBoy\MyOA_V1.0\Seven7c.OA.UI.Portal\Seven7c.OA.ADONETDAL\obj\Debug\Seven7c.OA.ADONETDAL.pdb
+F:\GOODBoy\MyOA_V1.0\Seven7c.OA.UI.Portal\Seven7c.OA.ADONETDAL\obj\Debug\Seven7c.OA.ADONETDAL.csprojResolveAssemblyReference.cache

@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<local:FinacleActivity xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:local="clr-namespace:Seven7c.OA.WF;assembly=Seven7c.OA.WF" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities" xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Activities.DurableInstancing</AssemblyReference>
+      <AssemblyReference>System.Configuration</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Runtime.DurableInstancing</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>Common.Logging</AssemblyReference>
+      <AssemblyReference>Spring.Core</AssemblyReference>
+      <AssemblyReference>Seven7c.OA.BLL</AssemblyReference>
+      <AssemblyReference>Seven7c.OA.IBLL</AssemblyReference>
+      <AssemblyReference>Seven7c.OA.Model</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>Seven7c.OA.WF</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <local:FinacleActivity.Implementation>
+    <StateMachine>
+      <StateMachine.InitialState>
+        <State x:Name="__ReferenceID1" DisplayName="提交审批表单">
+          <State.Entry>
+            <Sequence>
+              <WriteLine Text="用户提交表单&#xA;" />
+            </Sequence>
+          </State.Entry>
+          <State.Transitions>
+            <Transition DisplayName="T1">
+              <Transition.Condition>
+                <mca:CSharpValue x:TypeArguments="x:Boolean">1==1</mca:CSharpValue>
+              </Transition.Condition>
+              <Transition.To>
+                <State x:Name="__ReferenceID4" DisplayName="项目经理审批">
+                  <State.Entry>
+                    <Sequence>
+                      <Assign>
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:String">
+                            <mca:CSharpReference x:TypeArguments="x:String">TempBookMarkName</mca:CSharpReference>
+                          </OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:String">项目经理审批</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                      <local:SetStepActivity DisplayName="设置步奏名称" IsEnd="False">
+                        <local:SetStepActivity.StepName>
+                          <InArgument x:TypeArguments="x:String">
+                            <mca:CSharpValue x:TypeArguments="x:String">TempBookMarkName</mca:CSharpValue>
+                          </InArgument>
+                        </local:SetStepActivity.StepName>
+                      </local:SetStepActivity>
+                      <local:WaitInputDataActivity x:TypeArguments="x:Int32">
+                        <local:WaitInputDataActivity.BookMarkName>
+                          <InOutArgument x:TypeArguments="x:String">
+                            <mca:CSharpReference x:TypeArguments="x:String">TempBookMarkName</mca:CSharpReference>
+                          </InOutArgument>
+                        </local:WaitInputDataActivity.BookMarkName>
+                        <local:WaitInputDataActivity.OutResult>
+                          <OutArgument x:TypeArguments="x:Int32">
+                            <mca:CSharpReference x:TypeArguments="x:Int32">Result</mca:CSharpReference>
+                          </OutArgument>
+                        </local:WaitInputDataActivity.OutResult>
+                      </local:WaitInputDataActivity>
+                    </Sequence>
+                  </State.Entry>
+                  <State.Transitions>
+                    <Transition DisplayName="&lt;1000">
+                      <Transition.Condition>
+                        <mca:CSharpValue x:TypeArguments="x:Boolean">Result==0</mca:CSharpValue>
+                      </Transition.Condition>
+                      <Transition.To>
+                        <State x:Name="__ReferenceID0" DisplayName="财务审批" IsFinal="True">
+                          <State.Entry>
+                            <Sequence>
+                              <Assign>
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:String">
+                                    <mca:CSharpReference x:TypeArguments="x:String">TempBookMarkName</mca:CSharpReference>
+                                  </OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:String">财务审批</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <local:SetStepActivity IsEnd="True">
+                                <local:SetStepActivity.StepName>
+                                  <InArgument x:TypeArguments="x:String">
+                                    <mca:CSharpValue x:TypeArguments="x:String">TempBookMarkName</mca:CSharpValue>
+                                  </InArgument>
+                                </local:SetStepActivity.StepName>
+                              </local:SetStepActivity>
+                              <WriteLine Text="财务拨款" />
+                            </Sequence>
+                          </State.Entry>
+                        </State>
+                      </Transition.To>
+                    </Transition>
+                    <Transition DisplayName="&gt;1000">
+                      <Transition.Condition>
+                        <mca:CSharpValue x:TypeArguments="x:Boolean">Result==1</mca:CSharpValue>
+                      </Transition.Condition>
+                      <Transition.To>
+                        <State x:Name="__ReferenceID3" DisplayName="主管审批">
+                          <State.Entry>
+                            <Sequence>
+                              <Assign>
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:String">
+                                    <mca:CSharpReference x:TypeArguments="x:String">TempBookMarkName</mca:CSharpReference>
+                                  </OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:String">主管审批</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <local:SetStepActivity IsEnd="False">
+                                <local:SetStepActivity.StepName>
+                                  <InArgument x:TypeArguments="x:String">
+                                    <mca:CSharpValue x:TypeArguments="x:String">TempBookMarkName</mca:CSharpValue>
+                                  </InArgument>
+                                </local:SetStepActivity.StepName>
+                              </local:SetStepActivity>
+                              <local:WaitInputDataActivity x:TypeArguments="x:Int32">
+                                <local:WaitInputDataActivity.BookMarkName>
+                                  <InOutArgument x:TypeArguments="x:String">
+                                    <mca:CSharpReference x:TypeArguments="x:String">TempBookMarkName</mca:CSharpReference>
+                                  </InOutArgument>
+                                </local:WaitInputDataActivity.BookMarkName>
+                                <local:WaitInputDataActivity.OutResult>
+                                  <OutArgument x:TypeArguments="x:Int32">
+                                    <mca:CSharpReference x:TypeArguments="x:Int32">Result</mca:CSharpReference>
+                                  </OutArgument>
+                                </local:WaitInputDataActivity.OutResult>
+                              </local:WaitInputDataActivity>
+                            </Sequence>
+                          </State.Entry>
+                          <State.Transitions>
+                            <Transition DisplayName="T5" To="{x:Reference __ReferenceID0}">
+                              <Transition.Condition>
+                                <mca:CSharpValue x:TypeArguments="x:Boolean">Result==1</mca:CSharpValue>
+                              </Transition.Condition>
+                            </Transition>
+                            <Transition DisplayName="驳回">
+                              <Transition.Condition>
+                                <mca:CSharpValue x:TypeArguments="x:Boolean">Result==-1</mca:CSharpValue>
+                              </Transition.Condition>
+                              <Transition.To>
+                                <State x:Name="__ReferenceID2" DisplayName="用户重新申请">
+                                  <State.Entry>
+                                    <Sequence>
+                                      <Assign>
+                                        <Assign.To>
+                                          <OutArgument x:TypeArguments="x:String">
+                                            <mca:CSharpReference x:TypeArguments="x:String">TempBookMarkName</mca:CSharpReference>
+                                          </OutArgument>
+                                        </Assign.To>
+                                        <Assign.Value>
+                                          <InArgument x:TypeArguments="x:String">用户重新申请</InArgument>
+                                        </Assign.Value>
+                                      </Assign>
+                                      <local:SetStepActivity IsEnd="True">
+                                        <local:SetStepActivity.StepName>
+                                          <InArgument x:TypeArguments="x:String">
+                                            <mca:CSharpValue x:TypeArguments="x:String">TempBookMarkName</mca:CSharpValue>
+                                          </InArgument>
+                                        </local:SetStepActivity.StepName>
+                                      </local:SetStepActivity>
+                                    </Sequence>
+                                  </State.Entry>
+                                  <State.Transitions>
+                                    <Transition DisplayName="T7" To="{x:Reference __ReferenceID1}">
+                                      <Transition.Condition>
+                                        <mca:CSharpValue x:TypeArguments="x:Boolean">1==1</mca:CSharpValue>
+                                      </Transition.Condition>
+                                    </Transition>
+                                  </State.Transitions>
+                                </State>
+                              </Transition.To>
+                            </Transition>
+                          </State.Transitions>
+                        </State>
+                      </Transition.To>
+                    </Transition>
+                    <Transition DisplayName="驳回" To="{x:Reference __ReferenceID2}">
+                      <Transition.Condition>
+                        <mca:CSharpValue x:TypeArguments="x:Boolean">Result==-1</mca:CSharpValue>
+                      </Transition.Condition>
+                    </Transition>
+                  </State.Transitions>
+                </State>
+              </Transition.To>
+            </Transition>
+          </State.Transitions>
+        </State>
+      </StateMachine.InitialState>
+      <x:Reference>__ReferenceID1</x:Reference>
+      <x:Reference>__ReferenceID3</x:Reference>
+      <x:Reference>__ReferenceID0</x:Reference>
+      <x:Reference>__ReferenceID4</x:Reference>
+      <x:Reference>__ReferenceID2</x:Reference>
+      <StateMachine.Variables>
+        <Variable x:TypeArguments="x:Int32" Name="Result" />
+      </StateMachine.Variables>
+      <sads:DebugSymbol.Symbol>d05HOlxCYWlkdVl1bkRvd25sb2FkXE9BXFNldmVuN2MuT0EuVUkuUG9ydGFsXFNldmVuN2MuT0EuV0ZcRmluYWNsZUFjdGl2aXR5LnhhbWw0NAPvARICAQE2B+QBDwIBW4kBF9cBHwIBQGoXgQEfAgExQg/gARcCARO2AR/TAScCAQI4CzoWAgFhPw8/UgIBXYsBG6kBJgIBSa4BH64BZwIBRbMBH7MBaAIBQmwbfyYCATNEE2IeAgEfZxdnXwIBG4YBF4YBXwIBGNwBF9wBYAIBFbgBI8oBLgIBCM8BJ88BagIBBDkNOVsCAWKMAR2VASYCAVaWAR2cATUCAVGdAR2oATsCAUptHXYmAgE7dx19NQIBNn4dfmQCATRFFU4eAgEsTxVVLQIBJ1YVYTMCASC5ASXCAS4CAQ7DASXJAT0CAQk5SzlYAgFjkwFIkwFMAgFajwEjjwF5AgFXmQEjmQFxAgFTlgFulgF1AgFSoAEjoAF5AgFOpQEjpQFuAgFLdEh0TAIBP3AjcHkCATx6I3pxAgE4d253dAIBN35bfmECATVMQExGAgEwSBtIcQIBLVIbUmkCASlPe0+CAQIBKFkbWXECASReG15mAgEhwAFQwAFWAgESvAErvAGBAQIBD8YBK8YBeQIBC8MBdsMBfAIBCg==</sads:DebugSymbol.Symbol>
+    </StateMachine>
+  </local:FinacleActivity.Implementation>
+</local:FinacleActivity>

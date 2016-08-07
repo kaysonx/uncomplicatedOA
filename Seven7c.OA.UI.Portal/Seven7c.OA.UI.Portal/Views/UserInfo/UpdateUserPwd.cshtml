@@ -1,0 +1,86 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UpdateUserPwd</title>
+    <link href="~/Content/table_withJq.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+
+    <script src="~/Content/table_withJq.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            validatePwd();
+        });
+        function validatePwd()
+        {
+            $("form").validate({
+                rules: {
+                    oldPwd: "required",
+
+                    newPwd: {
+                        required: true,
+                    },
+                    newPwd2: {
+                        required: true,
+                        equalTo: "#newPwd"
+                    }
+                },
+                messages: {
+                    oldPwd: "*必填 ",
+
+                    newPwd: {
+                        required: "*必填",
+                    },
+                    newPwd2: {
+                        required: "*必填",
+                        equalTo: "两次输入密码不一致"
+                    }
+                }
+            });
+        }
+    
+        
+        function afterUpdate(data) {
+            if(data == "ok")
+            {
+                window.parent.window.close();
+            }
+        }
+    </script>
+</head>
+<body>
+    <div>
+        @using (Ajax.BeginForm("UpdateUserPwd", new AjaxOptions() { OnSuccess = "afterUpdate" }))
+{
+    <table cellspacing="0">
+        <tr>
+            <td>旧密码:</td>
+
+            <td><input type="password" name="oldPwd" id="oldPwd" /></td>
+        </tr>
+        <tr>
+            <td>新密码:</td>
+
+            <td><input type="password" name="newPwd" id="newPwd" /></td>
+        </tr>
+        <tr>
+            <td>重复新密码:</td>
+            <td><input type="password" name="newPwd2" id="newPwd2" /></td>
+        </tr>
+
+        <tr>
+            <td colspan="2"><input type="submit" value="修改密码" /></td>
+        </tr>
+    </table>
+}
+      
+    </div>
+</body>
+</html>

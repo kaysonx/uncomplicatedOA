@@ -1,0 +1,75 @@
+﻿@model Seven7c.OA.Model.UserInfo
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+    <link href="~/Content/css-table.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Content/style-table.js"></script>
+
+    <script type="text/javascript">
+        function afterEdit(data) {
+            //关闭对话框，刷新表格
+            if(data == "ok")
+            {
+                window.parent.window.afterEdit();
+            }
+        }
+
+        function submitFrm()
+        {
+            $("form").submit();
+        }
+    </script>
+</head>
+<body>
+    @using (Ajax.BeginForm("Edit", new AjaxOptions() { OnSuccess = "afterEdit" }))
+    {
+        @Html.ValidationSummary(true)
+        <table>
+            <tr>
+                <td>用户名</td>
+                <td>
+                    @Html.EditorFor(model => model.UName)
+                    @Html.ValidationMessageFor(model => model.UName)
+                </td>
+            </tr>
+            <tr>
+                <td>密码</td>
+                <td>
+                    @Html.EditorFor(model => model.Pwd)
+                    @Html.ValidationMessageFor(model => model.Pwd)
+                </td>
+            </tr>
+            <tr>
+                <td>备注</td>
+                <td>
+                    @Html.EditorFor(model => model.Remark)
+                    @Html.ValidationMessageFor(model => model.Remark)
+                </td>
+            </tr>
+            <tr>
+                <td>邮箱</td>
+                <td>
+                    @Html.EditorFor(model => model.Email)
+                    @Html.ValidationMessageFor(model => model.Email)
+                </td>
+            </tr>
+        </table>
+
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.SubTime)
+
+    }
+
+</body>
+</html>

@@ -1,0 +1,120 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Add</title>
+    <link href="~/Content/KinderEditor/themes/default/default.css" rel="stylesheet" />
+    <link href="~/Content/KinderEditor/plugins/code/prettify.css" rel="stylesheet" />
+    <link href="~/Content/css-table.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.7.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+    <script src="~/Content/style-table.js"></script>
+
+    <script src="~/Content/KinderEditor/kindeditor-min.js"></script>
+    <script src="~/Content/KinderEditor/lang/zh_CN.js"></script>
+    <script src="~/Content/KinderEditor/plugins/code/prettify.js"></script>
+
+
+    <script>
+        var editorDescription;
+        KindEditor.ready(function (K) {
+            editorDescription = K.create('textarea[name="Description"]', {
+                resizeType: 1,
+                allowPreviewEmoticons: false,
+                allowImageUpload: false,
+                items: [
+                    'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                    'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                    'insertunorderedlist', '|', 'emoticons', 'image', 'link']
+            });
+        });
+
+        var editorTempForm;
+        KindEditor.ready(function (K) {
+            editorTempForm = K.create('#TempForm', {
+                cssPath: '../plugins/code/prettify.css',
+                uploadJson: '../asp.net/upload_json.ashx',
+                fileManagerJson: '../asp.net/file_manager_json.ashx',
+                allowFileManager: true,
+                afterCreate: function () {
+                    var self = this;
+                    K.ctrl(document, 13, function () {
+                        self.sync();
+                        K('form[name=example]')[0].submit();
+                    });
+                    K.ctrl(self.edit.doc, 13, function () {
+                        self.sync();
+                        K('form[name=example]')[0].submit();
+                    });
+                }
+            });
+            prettyPrint();
+        });
+
+        $("input[type='submit']").click(function () {
+            editorDescription.sync();//把富文本编辑器的内容同步到文本域
+            editorTempForm.sync();
+        });
+
+        function afterAdded(data) {
+            if (data == "ok") {
+                window.parent.window.afterAdded();
+            }
+        }
+
+        function submit() {
+            editorDescription.sync();//把富文本编辑器的内容同步到文本域
+            editorTempForm.sync();
+            $("form").submit();
+        }
+
+    </script>
+
+</head>
+<body>
+    <div>
+        <div id="addDiv">
+            @using (Ajax.BeginForm("Add", new AjaxOptions() { OnSuccess = "afterAdded" }))
+            {
+                <table>
+                    <tr>
+                        <td>模板名：</td>
+                        <td>
+                            <input type="text" name="TempName" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>模板描述：</td>
+                        <td>
+                            <textarea name="Description" style="width:600px;height:250px;visibility:hidden;"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><br /></td>
+                    </tr>
+                    <tr>
+                        <td>模板表单：</td>
+                        <td>
+                            <textarea id="TempForm" name="TempForm" cols="100" rows="8" style="width:600px;height:250px;visibility:hidden;"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>备注：</td>
+                        <td>
+                            <input type="text" name="Remark" />
+                        </td>
+                    </tr>
+
+                </table>
+            }
+
+        </div>
+    </div>
+</body>
+</html>

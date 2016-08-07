@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Seven7c.OA.Model.WF_Instance>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ShowMyCheck</title>
+    <link href="~/Content/tableStyle.css" rel="stylesheet" />
+</head>
+<body>
+    <div>
+        <table>
+            <tr>
+                <th>流程名</th><th>模板名</th><th>实例标识</th><th>提交人</th>
+                <th>提交时间</th><th>结束时间</th><th>状态</th><th>备注</th>
+                <th>操作</th>
+            </tr>
+            @foreach (var item in Model)
+                {
+                    string href = "/WFInstance/Detail/" + item.Id;
+                    <tr>
+                        <td>@item.InstName</td>
+                        <td>@item.WF_Temp.TempName</td>
+                        <td>@item.WFApplicationId</td>
+                        <td>@item.SubBy</td>
+                        <td>@item.SubTime</td>
+                        <td>@item.EndTime</td>
+                        @if(item.Status == 0)
+                        {
+                            <td>审批中</td>
+                        }
+                        else
+                        {
+                             <td>审批结束</td>
+                        }
+                       
+                        <td>@item.Remark</td>
+                        <td><a href="@href" id="linkDetail">查看</a></td>
+                    </tr>
+                }
+        </table>
+    </div>
+</body>
+</html>

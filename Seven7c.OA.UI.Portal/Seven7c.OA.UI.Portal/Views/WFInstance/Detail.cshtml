@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Seven7c.OA.Model.WF_Step>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Detail</title>
+    <link href="~/Content/tableStyle.css" rel="stylesheet" />
+</head>
+<body>
+    @{
+        Seven7c.OA.Model.WF_Instance instance = (Seven7c.OA.Model.WF_Instance)ViewBag.Instance;
+    }
+    <div>
+        <table>
+            <tr>
+                <th colspan="2">流程详细</th>
+            </tr>
+
+            <tr>
+                <td>流程名</td>
+                <td>@instance.InstName</td>
+            </tr>
+
+            <tr>
+                <td>模板类型</td>
+                <td>@instance.WF_Temp.TempName</td>
+            </tr>
+
+            <tr>
+                <td>申请人</td>
+                <td>@instance.SubBy</td>
+            </tr>
+
+            <tr>
+                <td>申请时间</td>
+                <td>@instance.SubTime</td>
+            </tr>
+
+            <tr>
+                <td>申请内容</td>
+                <td>@Html.Raw(instance.InstanceForm)</td>
+            </tr>
+
+            <tr>
+                <td>审批步骤</td>
+                <td>
+                    @foreach (var item in Model)
+                    {
+                        <p>
+                            审批节点：@item.StepName<br />
+                            审批人：@item.ProcessBy<br />
+                            审批时间：@item.CheckTime<br />
+                            审批结果：@Html.Raw(string.IsNullOrEmpty(item.Result)?"正在审批中...":item.Result)<br />
+                            审批意见:@item.Comment
+                        </p>
+                    }
+
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</body>
+</html>

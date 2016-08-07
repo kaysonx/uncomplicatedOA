@@ -1,0 +1,344 @@
+﻿@{
+    Layout = null;
+}
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="/Content/JQueryLigerUI/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
+
+    <link href="~/Content/JQueryLigerUI/ligerUI/skins/ligerui-icons.css" rel="stylesheet" />
+
+    <link href="~/Content/jquery-easyui-1.3.1/themes/metro/easyui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-easyui-1.3.1/themes/icon.css" rel="stylesheet" />
+    
+    <script src="~/Content/jquery-easyui-1.3.1/jquery-1.8.0.min.js"></script>
+    <script src="../../Content/JQueryLigerUI/ligerUI/js/ligerui.all.js"></script>
+
+
+    <script src="~/Content/jquery-easyui-1.3.1/jquery.easyui.min.js"></script>
+
+    <style type="text/css">
+        .l-case-title {
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #winlinks {
+            position: absolute;
+            width: 100%;
+        }
+
+            #winlinks ul {
+                position: relative;
+            }
+
+            #winlinks li {
+                width: 70px;
+                cursor: pointer;
+                height: 80px;
+                position: absolute;
+                z-index: 101;
+                list-style: none;
+                text-align: center;
+            }
+
+                #winlinks li img {
+                    width: 36px;
+                    height: 36px;
+                }
+
+                #winlinks li span {
+                    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.3);
+                    border-radius: 10px 10px 10px 10px;
+                    display: block;
+                    font-size: 12px;
+                    margin-top: 1px;
+                    color: White;
+                    line-height: 18px;
+                    text-align: center;
+                }
+
+                #winlinks li.l-over div.bg {
+                    display: block;
+                }
+
+                #winlinks li div.bg {
+                    display: none;
+                    position: absolute;
+                    top: -2px;
+                    left: -2px;
+                    z-index: 0;
+                    width: 75px;
+                    height: 64px;
+                    -webkit-border-radius: 5px;
+                    -moz-border-radius: 5px;
+                    border-radius: 5px;
+                    background: #000;
+                    opacity: 0.1;
+                    filter: alpha(opacity=10);
+                }
+
+        .l-taskbar-task-icon {
+            top: 3px;
+            left: 6px;
+            background-image: none;
+        }
+
+        .l-taskbar-task-content {
+            margin-left: 30px;
+        }
+
+        .l-taskbar-task-icon img {
+            width: 22px;
+            height: 22px;
+        }
+
+        #header {
+            height: 80px;
+            background-image: url('../../Content/Images/head.jpg');
+            background-repeat: repeat-x;
+        }
+
+            #header img, #titleOA {
+                float: left;
+            }
+
+            #header span {
+                margin-top: 28px;
+                color:blueviolet;
+            }
+
+        #imgUser {
+            margin-right: 10px;
+        }
+    
+    </style>
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            $("#layout").ligerLayout();
+            setInterval(getNewMessages, 3000);
+            $("#showMessage").css("display", "none");
+            $("#imgUser").click(function () {
+                $.ligerDialog.confirm('确定要退出么？', function (yes) {
+                    if(yes == true)
+                    {
+                        $.post("/Home/Loginout", "", function (data) {
+                            window.location = "/Login/Index";
+                        });
+                    }
+                });
+            });
+        });
+        
+        
+        var tip;
+        //获取是否有新消息。
+        function getNewMessages() {
+            $.post("/Message/LoadNewMessages", null, function (data) {
+                if(data != "null")
+                {
+                    //弹出提示框。
+                    
+                    showTips(data.Id);
+                }
+            });
+        }
+
+        function showMessage(id) {
+            
+            $("#frameShowMessage").attr("src", "/Message/Detail/" + id);
+                $("#showMessage").css("display", "block");
+                $("#showMessage").dialog(
+                    {
+                        width: 400,
+                        height: 300,
+                        modal: true,
+                        title: "查看消息",
+                        collapsible: true,
+                        minimizable: true,
+                        maximizable: true,
+                        resizable: true,
+                        buttons: [ {
+                            id: 'btnCancel',
+                            text: '确定',
+                            iconCls: 'icon-cancel',
+                            handler: function () {
+                                tip.close();
+                                tip = null;
+                                $("#showMessage").dialog("close");
+                            }
+                        }]
+                    }
+               );
+            
+        }
+
+        //function showTips(data) {
+        //    $.messager.show({
+        //        title: '您有新的消息,请注意查收!',
+        //        msg: '<a href="javascript:void(0)" class="showMessage">点击查看详情...</a>',
+        //        timeout: 5000,
+        //        showType: 'slide'
+        //    });
+        //}
+       
+
+        function showTips(id) {
+            var width = document.body.clientWidth;
+            var height = document.body.clientHeight;
+            var content = '<a href="javascript:void(0)" onclick="showMessage('+id+');">点击查看详情...</a>'
+            if (!tip) {
+                //width: 240,
+                //modal: false,
+                //height: 100
+                //left: null,     //位置left
+                //top: null,      //位置top
+               
+                tip = $.ligerDialog.tip({ left: width - 240, top: height - 100 - 2, title: '您有新的消息,请注意查收!', content: content });
+            }
+            else {
+                var visabled = tip.get('visible');
+                if (!visabled) tip.show();
+                tip.set('left', width - 240, 'top', height - 100 - 2, 'content', content);
+            }
+        }
+
+        function close()
+        {
+            $.ligerDialog.hide();
+        }
+
+        
+    </script>
+
+</head>
+
+<body>
+
+    
+  
+
+        <div id="header">
+
+            <img src="../../Content/Images/logo.png" />
+            <div> <span id="titleOA" style="font-size: 20px; font-family: '微软雅黑', '宋体', Arial, sans-serif;">&nbsp;&nbsp;简单协同办公系统V1.0</span></div>
+            <div style="float: right;">
+                <table>
+                    <tr>
+                        <td id="time" style="vertical-align: bottom; font-size: 17px; margin-top:18px;font-weight: bold;">@DateTime.Now.ToString("yyyy-MM-dd") &nbsp;&nbsp; @DateTime.Now.DayOfWeek</td>
+                        <td>&nbsp;&nbsp;&nbsp;<img id="imgUser" title="退出" src="../../Content/Images/exit.png" width="27px" height="27px"/></td>
+                    </tr>
+                </table>
+            </div>
+
+
+        </div>
+
+    <div id="layout1">
+        <div id="winlinks" position="center" style="overflow: hidden; background: url(/Content/images/body.jpg) no-repeat  0 0;">
+            <ul></ul>
+        </div>
+    </div>
+
+    <div id="showMessage">
+        <iframe id="frameShowMessage" src="javascript:void(0)" frameborder="0" width="100%" height="100%"></iframe>
+    </div>
+
+</body>
+<script type="text/javascript">
+    var LINKWIDTH = 90, LINKHEIGHT = 90, TASKBARHEIGHT = 43;
+    var winlinksul = $("#winlinks ul");
+    function f_open(url, title, icon) {
+        var win = $.ligerDialog.open(
+        {
+            height: 520, url: url, width: 750, showMax: true, showToggle: true, showMin: true, isResize: true, modal: false, title: title, slide: false, buttons: [
+              {
+                  text: '确定', onclick: function (item, Dialog, index) {
+                      win.hide();
+                  }
+              }
+            ]
+        });
+        var task = jQuery.ligerui.win.tasks[win.id];
+        if (task) {
+            $(".l-taskbar-task-icon:first", task).html('<img src="' + icon + '" />');
+        }
+        return win;
+    }
+
+    //var links = [
+    //        { icon: '/Content/images/3DSMAX.png', title: '用户管理', url: '/UserInfo/Index' },
+    //        { icon: '/Content/images/3DSMAX.png', title: '角色管理', url: '/RoleInfo/Index' },
+    //        { icon: '/Content/images/3DSMAX.png', title: '权限管理', url: '/ActionInfo/Index' }
+           
+    //];
+    @Html.Raw("var links="+ViewBag.MenuData+";")
+
+    function onResize() {
+        var linksHeight = $(window).height() - TASKBARHEIGHT;
+        var winlinks = $("#winlinks");
+        winlinks.height(linksHeight);
+        var colMaxNumber = parseInt(linksHeight / LINKHEIGHT) - 1;//一列最多显示几个快捷方式
+        for (var i = 0, l = links.length; i < l; i++) {
+            var link = links[i];
+            var jlink = $("li[linkindex=" + i + "]", winlinks);
+            var top = (i % colMaxNumber) * LINKHEIGHT, left = parseInt(i / colMaxNumber) * LINKWIDTH;
+            if (isNaN(top) || isNaN(left)) continue;
+            jlink.css({ top: top, left: left });
+        }
+
+    }
+    function linksInit() {
+        for (var i = 0, l = links.length; i < l; i++) {
+            var link = links[i];
+            var jlink;
+            var jlink = $("<li></li>");
+            jlink.attr("linkindex", i);
+            //给没有图标的菜单项默认图标
+            if (!link.icon)
+            {
+                link.icon = "/Content/images/3DSMAX.png";
+            }
+            jlink.append("<img src='" + link.icon + "' />");
+            jlink.append("<span>" + link.title + "</span>");
+            jlink.append("<div class='bg'></div>");
+            jlink.hover(function () {
+                $(this).addClass("l-over");
+            }, function () {
+                $(this).removeClass("l-over");
+            }).click(function () {
+                var linkindex = $(this).attr("linkindex");
+                var link = links[linkindex];
+                f_open(link.url, link.title, link.icon);
+            });
+            jlink.appendTo(winlinksul);
+        }
+
+    }
+
+    $(window).resize(onResize);
+    $.ligerui.win.removeTaskbar = function () { }; //不允许移除
+    $.ligerui.win.createTaskbar(); //页面加载时创建任务栏
+
+    linksInit();
+    onResize();
+
+</script>
+</html>

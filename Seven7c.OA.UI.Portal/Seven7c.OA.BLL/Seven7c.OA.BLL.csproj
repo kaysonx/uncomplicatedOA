@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4755AF45-8647-4F93-9763-0C29EAE21084}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Seven7c.OA.BLL</RootNamespace>
+    <AssemblyName>Seven7c.OA.BLL</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseService.cs" />
+    <Compile Include="MesssageService.cs" />
+    <Compile Include="OrderInfoService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ActionInfoService.cs" />
+    <Compile Include="RoleInfoService.cs" />
+    <Compile Include="Services.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Services.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserInfoService.cs" />
+    <Compile Include="WF_TempService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Seven7c.OA.DALFactory\Seven7c.OA.DALFactory.csproj">
+      <Project>{3c474708-9a96-4f75-9ac7-b759cdd2da26}</Project>
+      <Name>Seven7c.OA.DALFactory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seven7c.OA.EFDAL\Seven7c.OA.EFDAL.csproj">
+      <Project>{b741d165-7819-4bc4-a8ca-76632edc1ce8}</Project>
+      <Name>Seven7c.OA.EFDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seven7c.OA.IBLL\Seven7c.OA.IBLL.csproj">
+      <Project>{477f7bb5-e719-4fbb-bb02-f13a65722f64}</Project>
+      <Name>Seven7c.OA.IBLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seven7c.OA.IDAL\Seven7c.OA.IDAL.csproj">
+      <Project>{b632dd02-e4a2-427b-acc9-0826b334c6a5}</Project>
+      <Name>Seven7c.OA.IDAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seven7c.OA.Model\Seven7c.OA.Model.csproj">
+      <Project>{4b562ca9-e80d-4dca-b0b1-088a9d7d8e04}</Project>
+      <Name>Seven7c.OA.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Services.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Services.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
